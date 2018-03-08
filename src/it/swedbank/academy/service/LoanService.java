@@ -5,15 +5,12 @@ import it.swedbank.academy.util.DateUtil;
 import it.swedbank.academy.util.LoanUtil;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class LoanService implements LoanServiceInterface {
 
-    private BigDecimal averageLoanCost;
     private LoanIterable loans;
-    private BigDecimal maximumPriceOfNonExpiredLoans;
-    private BigDecimal highRiskAverage, normalRiskAverage, lowRiskAverage;
-    private int highRiskLoanCount=0;
     private Collection<Loan> normalRiskVehicleLoans;
     private int maximumAgeOfLowRiskLoanedVehicles;
     private Collection<Loan> personalRealEstateLoans;
@@ -23,92 +20,63 @@ public class LoanService implements LoanServiceInterface {
     private ArrayList<Loan> loansOfHigherThanAverageDepreciation;
     private BigDecimal averageVehicleDepreciation;
 
+    public LoanService(LoanIterable loan) {
+        this.loans = loan;
+    }
     //1
-
-    public void calculateHighRiskLoans(){
+    public int calculateHighRiskLoans() {
         int count=0;
         for(Loan loan: this.loans){
             if(loan.getLoanRiskType()==LoanRiskType.HIGH_RISK){
                 count++;
             }
         }
-        highRiskLoanCount=count;
+        return count;
     }
 
-    public void calculateAverageLoanCost(){
+    public BigDecimal calculateAverageLoanCost() {
         BigDecimal sum = BigDecimal.ZERO;
         int count=0;
         for(Loan loan: this.loans){
             sum=sum.add(loan.getTotalLoanCost());
             count++;
         }
-        averageLoanCost = sum.divide(new BigDecimal(count));
+        return sum.divide(new BigDecimal(count), 3, RoundingMode.HALF_UP);
     }
 
-    public LoanService(LoanIterable loan) {
-        this.loans = loan;
-    }
-
-    public BigDecimal getAverageLoanCost(){
-        return averageLoanCost;
-    }
-
-    public BigDecimal getAverageLoanCostByRiskType(LoanRiskType type){
-        switch (type){
-            case LOW_RISK: return lowRiskAverage;
-            case NORMAL_RISK: return normalRiskAverage;
-            case HIGH_RISK: return highRiskAverage;
-        }
-        return BigDecimal.ZERO;
-    }
-
-    public int getHighRiskLoans() {
-        return highRiskLoanCount;
-    }
-
-    public BigDecimal getAverageCostOfHighRiskLoans(){
-        return highRiskAverage;
-    }
-
-    public BigDecimal getMaximumPriceOfNonExpiredLoans(){
-        return maximumPriceOfNonExpiredLoans;
-    }
-
-    public void calculateAverageLoanCostByRiskType() {
-        BigDecimal lowRisk = BigDecimal.ZERO;
-        int lowCounter=0;
-        BigDecimal midRisk = BigDecimal.ZERO;
-        int midCounter=0;
-        BigDecimal highRisk = BigDecimal.ZERO;
-        int highCounter=0;
-        for(Loan loan: this.loans) {
-            if (loan.getLoanRiskType() == LoanRiskType.LOW_RISK) {
-                lowRisk = lowRisk.add(loan.getTotalLoanCost());
-                lowCounter++;
-            } else if (loan.getLoanRiskType() == LoanRiskType.NORMAL_RISK) {
-                midRisk = midRisk.add(loan.getTotalLoanCost());
-                midCounter++;
-            } else if (loan.getLoanRiskType() == LoanRiskType.HIGH_RISK) {
-                highRisk = highRisk.add(loan.getTotalLoanCost());
-                highCounter++;
+    public BigDecimal calculateAverageCostOfHighRiskLoans() {
+        BigDecimal sum = new BigDecimal(0);
+        int counter = 0;
+        for (Loan loan : this.loans) {
+            if (loan.getLoanRiskType() == LoanRiskType.HIGH_RISK) {
+                sum = sum.add(loan.getTotalLoanCost());
+                counter++;
             }
         }
-        this.lowRiskAverage = lowRisk.divide(new BigDecimal(lowCounter));
-        this.normalRiskAverage = midRisk.divide(new BigDecimal(midCounter));
-        this.highRiskAverage = highRisk.divide(new BigDecimal(highCounter));
+        return sum.divide(new BigDecimal(counter));
     }
 
-    public void calculateMaximumPriceOfNonExpiredLoans() {
-        List<BigDecimal> notExpiredList = new ArrayList<BigDecimal>();
+    public BigDecimal calculateAverageLoanCostByRiskType(LoanRiskType riskType) {
+        BigDecimal averageCost = new BigDecimal(0);
+        int counter = 0;
+        for(Loan loan: this.loans) {
+            if (loan.getLoanRiskType() == riskType) {
+                averageCost = averageCost.add(loan.getTotalLoanCost());
+                counter++;
+            }
+        }
+        return averageCost.divide(new BigDecimal(counter));
+    }
 
+    public BigDecimal calculateMaximumPriceOfNonExpiredLoans() {
+        List<BigDecimal> notExpiredList = new ArrayList<BigDecimal>();
         for(Loan loan: this.loans) {
             if(DateUtil.addYears(loan.getCreationDate(),loan.getTermInYears()).before(new Date())){
                 notExpiredList.add(loan.getTotalLoanCost());
             }
         }
-        maximumPriceOfNonExpiredLoans=Collections.max(notExpiredList);
+        return Collections.max(notExpiredList);
     }
-
     public Map<LoanRiskType,Collection<Loan>>  groupLoansByRiskType(){
         Map<LoanRiskType,Collection<Loan>> loansByRiskType = new TreeMap<>();
         for(Loan loan:loans){
@@ -134,16 +102,17 @@ public class LoanService implements LoanServiceInterface {
         return vehicleModels;
     }
 
-    public void calculateNormalRiskVehicleLoans(){
-        normalRiskVehicleLoans = new ArrayList<>();
+    public ArrayList<Loan> calculateNormalRiskVehicleLoans() {
+        ArrayList<Loan> normalRiskVehicleLoans = new ArrayList<>();
         for(Loan loan:loans){
             if(loan.getLoanRiskType()==LoanRiskType.NORMAL_RISK && loan instanceof VehicleLoan){
                 normalRiskVehicleLoans.add(loan);
             }
         }
+        return normalRiskVehicleLoans;
     }
 
-    public void calculateMaximumAgeOfLowRiskLoanedVehicles() {
+    public int calculateMaximumAgeOfLowRiskLoanedVehicles() {
         maximumAgeOfLowRiskLoanedVehicles=0;
         ArrayList<Integer> lowRiskLoanedVehicles = new ArrayList<>();
         for(Loan loan:loans){
@@ -151,7 +120,7 @@ public class LoanService implements LoanServiceInterface {
                 lowRiskLoanedVehicles.add(((VehicleLoan) loan).getMaximumAge());
             }
         }
-        maximumAgeOfLowRiskLoanedVehicles=Collections.max(lowRiskLoanedVehicles);
+        return (Collections.max(lowRiskLoanedVehicles).equals(0) ? 0 : Collections.max(lowRiskLoanedVehicles));
     }
 
     public void calculatePersonalRealEstateLoans() {
@@ -163,16 +132,16 @@ public class LoanService implements LoanServiceInterface {
         }
     }
 
-    public void calculateExpiredHighRiskVehicleLoansOfHighestDuration() {
+    public Collection<Integer> calculateExpiredHighRiskVehicleLoansOfHighestDuration() {
         expiredHighRiskVehicleLoansOfHighestDuration = new ArrayList<>();
         for(Loan loan:loans){
             if(loan.getLoanRiskType()==LoanRiskType.HIGH_RISK && loan instanceof VehicleLoan){
-                expiredHighRiskVehicleLoansOfHighestDuration.add(((VehicleLoan) loan).getMaximumAge());
-                //if(DateUtil.addYears(loan.getCreationDate(),loan.getTermInYears()).after(new Date())) {
-                //   expiredHighRiskVehicleLoansOfHighestDuration.add(((VehicleLoan) loan).getMaximumAge());
-                //}
+                if (DateUtil.addYears(loan.getCreationDate(), loan.getTermInYears()).after(new Date())) {
+                    expiredHighRiskVehicleLoansOfHighestDuration.add(((VehicleLoan) loan).getMaximumAge());
+                }
             }
         }
+        return expiredHighRiskVehicleLoansOfHighestDuration;
     }
 
     public Collection<Loan> getNormalRiskVehicleLoans() {

@@ -1,54 +1,26 @@
 package it.swedbank.academy.domain;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
 
 public interface LoanServiceInterface {
 
     //1
+    int calculateHighRiskLoans();
 
-    void calculateHighRiskLoans();
+    BigDecimal calculateAverageLoanCost();
 
-    void calculateAverageLoanCost();
+    BigDecimal calculateAverageCostOfHighRiskLoans();
 
-    BigDecimal getAverageLoanCost();
+    BigDecimal calculateAverageLoanCostByRiskType(LoanRiskType type);
 
-    BigDecimal getAverageLoanCostByRiskType(LoanRiskType type);
-
-    int getHighRiskLoans();
-
-    BigDecimal getAverageCostOfHighRiskLoans();
-
-    BigDecimal getMaximumPriceOfNonExpiredLoans();
-
-    void calculateAverageLoanCostByRiskType();
-
-    void calculateMaximumPriceOfNonExpiredLoans();
-
-    Map<LoanRiskType, Collection<Loan>> groupLoansByRiskType();
-
+    BigDecimal calculateMaximumPriceOfNonExpiredLoans();
     //2
+    ArrayList calculateNormalRiskVehicleLoans();
 
-    Set<String> findVehicleModels();
-
-    void calculateNormalRiskVehicleLoans();
-
-    void calculateMaximumAgeOfLowRiskLoanedVehicles();
-
-    void calculatePersonalRealEstateLoans();
-
-    void calculateExpiredHighRiskVehicleLoansOfHighestDuration();
-
-    Collection<Loan> getNormalRiskVehicleLoans();
-
-    int getMaximumAgeOfLowRiskLoanedVehicles();
-
-    Collection<Loan> getPersonalRealEstateLoans();
-
+    int calculateMaximumAgeOfLowRiskLoanedVehicles();
     Collection<Integer> getExpiredHighRiskVehicleLoansOfHighestDuration();
-
     //3
 
     Collection<Loan> getLowRiskHarvesterLoans();

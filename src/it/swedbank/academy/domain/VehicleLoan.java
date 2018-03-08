@@ -11,7 +11,7 @@ public class VehicleLoan extends Loan {
     private Date manufacturedDate;
     private BigDecimal interestRate;
 
-    public void VehicleLoan(){
+    public void VehicleLoan() {
         this.interestRate = super.getInterestRate().multiply(getInterestMultiplierBasedOnRiskGroup());
     }
 

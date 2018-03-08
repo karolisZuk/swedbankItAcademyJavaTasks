@@ -6,7 +6,7 @@ import it.swedbank.academy.domain.LoanIterable;
 import it.swedbank.academy.domain.LoanRiskType;
 import it.swedbank.academy.service.DomainInitializer;
 import it.swedbank.academy.service.LoanService;
-import it.swedbank.academy.service.Task3DomainInitializer;
+import it.swedbank.academy.service.Task2DomainInitializer;
 
 import java.util.Collections;
 
@@ -14,15 +14,15 @@ public class ClientApp {
 
     public static void main(String[] args) {
 
-        task1();
-       // task2();
+        //  task1();
+        task2();
 
         // task3();
     }
 
 
     public static DomainInitializer getInitializer() {
-        return new Task3DomainInitializer();
+        return new Task2DomainInitializer();
     }
 
     private static void task1(){
@@ -30,22 +30,14 @@ public class ClientApp {
         Loan[] loans = getInitializer().initializeLoans();
         LoanIterable loanList = new LoanIterable(loans);
         LoanService service = new LoanService(loanList);
-
-        //run calculations
-        service.calculateHighRiskLoans();
-        service.calculateAverageLoanCost();
-        service.calculateAverageLoanCostByRiskType();
-        service.calculateMaximumPriceOfNonExpiredLoans();
         //output
-        System.out.println("There are "+service.getHighRiskLoans());
-        System.out.println("Average loan cost: "+service.getAverageLoanCost());
-
-        System.out.println("LOW RISK: "+service.getAverageLoanCostByRiskType(LoanRiskType.LOW_RISK));
-        System.out.println("NORMAL RISK: "+service.getAverageLoanCostByRiskType(LoanRiskType.NORMAL_RISK));
-        System.out.println("HIGH RISK: "+service.getAverageLoanCostByRiskType(LoanRiskType.HIGH_RISK));
-
-        System.out.println("AVERAGE PRICE OF HIGH RISK LOANS: "+service.getAverageCostOfHighRiskLoans());
-        System.out.println("MAXIMUM PRICE OF NON EXPIRED LOANS: "+service.getMaximumPriceOfNonExpiredLoans());
+        System.out.println("There are " + service.calculateHighRiskLoans());
+        System.out.println("Average loan cost: " + service.calculateAverageLoanCost());
+        System.out.println("LOW RISK: " + service.calculateAverageLoanCostByRiskType(LoanRiskType.LOW_RISK));
+        System.out.println("NORMAL RISK: " + service.calculateAverageLoanCostByRiskType(LoanRiskType.NORMAL_RISK));
+        System.out.println("HIGH RISK: " + service.calculateAverageLoanCostByRiskType(LoanRiskType.HIGH_RISK));
+        System.out.println("AVERAGE PRICE OF HIGH RISK LOANS: " + service.calculateAverageCostOfHighRiskLoans());
+        System.out.println("MAXIMUM PRICE OF NON EXPIRED LOANS: " + service.calculateMaximumPriceOfNonExpiredLoans());
     }
 
     private static void task2(){
@@ -53,16 +45,14 @@ public class ClientApp {
         Loan[] loans = getInitializer().initializeLoans();
         LoanIterable loanList = new LoanIterable(loans);
         LoanService service = new LoanService(loanList);
-
-        service.calculateNormalRiskVehicleLoans();
+        //out
         service.calculateMaximumAgeOfLowRiskLoanedVehicles();
-       // service.calculatePersonalRealEstateLoans();
-        service.calculateExpiredHighRiskVehicleLoansOfHighestDuration();
-
-        System.out.println("There are: "+service.getNormalRiskVehicleLoans().size());
-        System.out.println(service.getMaximumAgeOfLowRiskLoanedVehicles());
-      //  System.out.println("There are: "+service.getPersonalRealEstateLoans().size());
-        System.out.println("There is "+service.getExpiredHighRiskVehicleLoansOfHighestDuration().size()+", and highest duration is "+ Collections.max(service.getExpiredHighRiskVehicleLoansOfHighestDuration()));
+        service.calculatePersonalRealEstateLoans();
+        System.out.println("There are: " + service.calculateNormalRiskVehicleLoans().size());
+        System.out.println(service.calculateMaximumAgeOfLowRiskLoanedVehicles());
+        System.out.println("There are: " + service.getPersonalRealEstateLoans().size());
+        System.out.println("There is " + service.getExpiredHighRiskVehicleLoansOfHighestDuration().size() + "," +
+                " and highest duration is " + Collections.max(service.getExpiredHighRiskVehicleLoansOfHighestDuration()));
     }
 
 
