@@ -3,7 +3,6 @@ package it.swedbank.academy.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Objects;
 
 public class Loan {
     private Date creationDate;
@@ -104,5 +103,6 @@ public class Loan {
         result = 31 * result + (riskType != null ? riskType.hashCode() : 0);
         return result;
     }
+
 
 }

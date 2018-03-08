@@ -3,9 +3,10 @@ package it.swedbank.academy.app;
 
 import it.swedbank.academy.domain.Loan;
 import it.swedbank.academy.domain.LoanRiskType;
-import it.swedbank.academy.service.*;
+import it.swedbank.academy.service.DomainInitializer;
+import it.swedbank.academy.service.LoanService;
+import it.swedbank.academy.service.Task3DomainInitializer;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 public class ClientApp {
@@ -65,7 +66,13 @@ public class ClientApp {
         Loan[] loans = getInitializer().initializeLoans();
         LoanService service = new LoanService(loans);
 
-        System.out.println(loans.toString());
+        service.calculateLowRiskHarvesterLoans();
+        service.calculateExpiredLandLoansInReservation();
+        service.calculateLoansOfHigherThanAverageDepreciation();
+
+        System.out.println("There are " + service.getLowRiskHarvesterLoans().size());
+        System.out.println("There is " + service.getExpiredLandLoansInReservation().size());
+        System.out.println("There is " + service.getLoansOfHigherThanAverageDepreciation().size() + " average deprecation is " + service.getAverageVehicleDepreciation());
 
     }
 

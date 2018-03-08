@@ -7,4 +7,8 @@ public class LandLoan extends RealEstateLoan {
     public void setInReservation(boolean inReservation) {
         this.inReservation = inReservation;
     }
+
+    public boolean getInReservation() {
+        return inReservation;
+    }
 }

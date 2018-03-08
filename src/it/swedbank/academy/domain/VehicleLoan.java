@@ -12,7 +12,15 @@ public class VehicleLoan extends Loan {
     private BigDecimal interestRate;
 
     public void VehicleLoan(){
+        this.interestRate = super.getInterestRate().multiply(getInterestMultiplierBasedOnRiskGroup());
+    }
 
+    private BigDecimal getInterestMultiplierBasedOnRiskGroup() {
+        if (this.getLoanRiskType() == LoanRiskType.HIGH_RISK) {
+            return new BigDecimal(1.5);
+        } else if (this.getLoanRiskType() == LoanRiskType.NORMAL_RISK) {
+            return new BigDecimal(1);
+        } else return new BigDecimal(0.8);
     }
 
     public void setManufactured(Date manufactured) {
@@ -67,4 +75,8 @@ public class VehicleLoan extends Loan {
         return result;
     }
 
+
+    public int compareTo(CarLoan o) {
+        return this.getPrice().compareTo(o.getPrice());
+    }
 }

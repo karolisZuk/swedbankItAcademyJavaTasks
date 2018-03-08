@@ -14,4 +14,12 @@ public class HouseLoan extends RealEstateLoan {
     public void setFloorCount(int floorCount) {
         this.floorCount = floorCount;
     }
+
+    public Date getConstructionDate() {
+        return constructionDate;
+    }
+
+    public int getFloorCount() {
+        return floorCount;
+    }
 }

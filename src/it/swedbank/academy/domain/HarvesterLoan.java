@@ -24,4 +24,20 @@ public class HarvesterLoan extends Loan {
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
+
+    public Date getManufactured() {
+        return manufactured;
+    }
+
+    public int getMaximumAge() {
+        return maximumAge;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
 }
