@@ -3,10 +3,9 @@ package it.swedbank.academy.app;
 
 import it.swedbank.academy.domain.Loan;
 import it.swedbank.academy.domain.VehicleLoan;
-import it.swedbank.academy.service.LoanService;
 
 public class Task2Test {
-  public static void main(String[] args) {
+  /*public static void main(String[] args) {
     LoanService loanService = new LoanService(
       createLoans(
         "Scout Traveler",
@@ -21,7 +20,7 @@ public class Task2Test {
     for (String model : loanService.findVehicleModels()) {
       System.out.println(model);
     }
-  }
+  }*/
 
   private static Loan[] createLoans(String... vehicleModels) {
     Loan[] loans = new Loan[vehicleModels.length];

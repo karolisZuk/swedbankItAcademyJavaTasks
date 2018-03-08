@@ -3,10 +3,9 @@ package it.swedbank.academy.app;
 
 import it.swedbank.academy.domain.Loan;
 import it.swedbank.academy.domain.LoanRiskType;
-import it.swedbank.academy.service.LoanService;
 
 public class Task3Test {
-  public static void main(String[] args) {
+  /*public static void main(String[] args) {
     LoanService loanService = new LoanService(
       createLoans(
         new LoanData("1", LoanRiskType.LOW_RISK),
@@ -25,7 +24,7 @@ public class Task3Test {
       }
       System.out.println();
     }
-  }
+  }*/
 
   private static Loan[] createLoans(LoanData... loanData) {
     Loan[] loans = new Loan[loanData.length];

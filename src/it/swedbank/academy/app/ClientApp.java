@@ -2,6 +2,7 @@ package it.swedbank.academy.app;
 
 
 import it.swedbank.academy.domain.Loan;
+import it.swedbank.academy.domain.LoanIterable;
 import it.swedbank.academy.domain.LoanRiskType;
 import it.swedbank.academy.service.DomainInitializer;
 import it.swedbank.academy.service.LoanService;
@@ -13,9 +14,10 @@ public class ClientApp {
 
     public static void main(String[] args) {
 
-       // task1();
+        task1();
        // task2();
-        task3();
+
+        // task3();
     }
 
 
@@ -26,7 +28,9 @@ public class ClientApp {
     private static void task1(){
         //init
         Loan[] loans = getInitializer().initializeLoans();
-        LoanService service = new LoanService(loans);
+        LoanIterable loanList = new LoanIterable(loans);
+        LoanService service = new LoanService(loanList);
+
         //run calculations
         service.calculateHighRiskLoans();
         service.calculateAverageLoanCost();
@@ -47,7 +51,8 @@ public class ClientApp {
     private static void task2(){
         //init
         Loan[] loans = getInitializer().initializeLoans();
-        LoanService service = new LoanService(loans);
+        LoanIterable loanList = new LoanIterable(loans);
+        LoanService service = new LoanService(loanList);
 
         service.calculateNormalRiskVehicleLoans();
         service.calculateMaximumAgeOfLowRiskLoanedVehicles();
@@ -64,7 +69,8 @@ public class ClientApp {
     private static void task3(){
         //init
         Loan[] loans = getInitializer().initializeLoans();
-        LoanService service = new LoanService(loans);
+        LoanIterable loanList = new LoanIterable(loans);
+        LoanService service = new LoanService(loanList);
 
         service.calculateLowRiskHarvesterLoans();
         service.calculateExpiredLandLoansInReservation();

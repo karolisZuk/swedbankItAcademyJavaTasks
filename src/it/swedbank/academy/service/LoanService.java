@@ -10,7 +10,7 @@ import java.util.*;
 public class LoanService implements LoanServiceInterface {
 
     private BigDecimal averageLoanCost;
-    private Loan[] loans;
+    private LoanIterable loans;
     private BigDecimal maximumPriceOfNonExpiredLoans;
     private BigDecimal highRiskAverage, normalRiskAverage, lowRiskAverage;
     private int highRiskLoanCount=0;
@@ -45,7 +45,7 @@ public class LoanService implements LoanServiceInterface {
         averageLoanCost = sum.divide(new BigDecimal(count));
     }
 
-    public LoanService(Loan[] loan){
+    public LoanService(LoanIterable loan) {
         this.loans = loan;
     }
 
@@ -260,9 +260,10 @@ public class LoanService implements LoanServiceInterface {
     }
 
     public Set<Loan> prioritizeLoans() {
-        Set<Loan> result = new LinkedHashSet<>();
+        Set<Loan> sortedResult = new LinkedHashSet<>();
 
-        return result;
+
+        return sortedResult;
 
     }
 }

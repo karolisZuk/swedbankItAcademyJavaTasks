@@ -3,15 +3,11 @@ package it.swedbank.academy.app;
 
 import it.swedbank.academy.domain.Loan;
 import it.swedbank.academy.domain.LoanRiskType;
-import it.swedbank.academy.service.LoanService;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 public class Task6Test {
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
@@ -26,7 +22,7 @@ public class Task6Test {
     private static final Date OLDER = stringToDate("2018-03-06");
     private static final Date NEWER = stringToDate("2018-03-07");
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         List<Loan> loans = Arrays.asList(
                 createLoan("1", HIGH_RISK, LOW_PRICE, LOW_INTEREST_RATE, NEWER),
                 createLoan("2", HIGH_RISK, LOW_PRICE, LOW_INTEREST_RATE, OLDER),
@@ -58,7 +54,7 @@ public class Task6Test {
         for (Loan loan : new LoanService((Loan[]) loans.toArray()).prioritizeLoans()) {
             System.out.print(loan.getName() + " ");
         }
-    }
+    }*/
 
     private static Loan createLoan(String name, LoanRiskType riskType, BigDecimal price, BigDecimal interestRate, Date creationDate) {
         Loan loan = new Loan();
