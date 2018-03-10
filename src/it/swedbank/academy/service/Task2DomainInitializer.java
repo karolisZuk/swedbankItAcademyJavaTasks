@@ -127,7 +127,7 @@ public class Task2DomainInitializer implements DomainInitializer {
         loans[9].setRiskType(LoanRiskType.LOW_RISK);
         loans[9].setTermInYears(3);
         ((VehicleLoan)loans[9]).setManufactured(DateUtil.getDateFromString("2017-01-01"));
-        ((VehicleLoan)loans[9]).setMaximumAge(15);
+        ((VehicleLoan) loans[9]).setMaximumAge(1);
         ((VehicleLoan)loans[9]).setModel("Opel Astra");
         loans[9].setName("VehicleLoan 9");
 

@@ -2,7 +2,7 @@ package it.swedbank.academy.domain;
 
 import java.util.Date;
 
-public class HarvesterLoan extends Loan {
+public class HarvesterLoan extends VehicleLoan {
 
     private Date manufactured;
     private int maximumAge;

@@ -16,23 +16,17 @@ public interface LoanServiceInterface {
     BigDecimal calculateAverageLoanCostByRiskType(LoanRiskType type);
 
     BigDecimal calculateMaximumPriceOfNonExpiredLoans();
+
     //2
     ArrayList calculateNormalRiskVehicleLoans();
 
     int calculateMaximumAgeOfLowRiskLoanedVehicles();
-    Collection<Integer> getExpiredHighRiskVehicleLoansOfHighestDuration();
+
     //3
+    Collection<Loan> calculateLowRiskHarvesterLoans();
 
-    Collection<Loan> getLowRiskHarvesterLoans();
+    Collection<Loan> calculateExpiredLandLoansInReservation();
 
-    Collection<Loan> getExpiredLandLoansInReservation();
-
-    Collection<Loan> getLoansOfHigherThanAverageDepreciation();
-
-    void calculateLowRiskHarvesterLoans();
-
-    void calculateExpiredLandLoansInReservation();
-
-    void calculateLoansOfHigherThanAverageDepreciation();
+    Collection<Loan> calculateLoansOfHigherThanAverageDepreciation();
 
 }
