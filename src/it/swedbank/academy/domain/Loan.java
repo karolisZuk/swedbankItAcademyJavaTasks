@@ -78,6 +78,7 @@ public class Loan {
         this.riskType = riskType;
     }
 
+    //Is this generated, or you wrote it by yourself? :)
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -93,6 +94,7 @@ public class Loan {
         return riskType == loan.riskType;
     }
 
+    //Is this generated, or you wrote it by yourself? :)
     @Override
     public int hashCode() {
         int result = creationDate != null ? creationDate.hashCode() : 0;

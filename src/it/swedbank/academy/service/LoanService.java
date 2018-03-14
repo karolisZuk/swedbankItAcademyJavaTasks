@@ -29,6 +29,7 @@ public class LoanService implements LoanServiceInterface {
 
     public BigDecimal calculateAverageLoanCost() {
         BigDecimal sum = BigDecimal.ZERO;
+        //You already know what the "count" is (hint: count = loans.size()), so you don't need to calculate it.
         int count = 0;
         for (Loan loan : this.loans) {
             sum = sum.add(loan.getTotalLoanCost());
@@ -38,6 +39,7 @@ public class LoanService implements LoanServiceInterface {
     }
 
     public BigDecimal calculateAverageCostOfHighRiskLoans() {
+        //Use BigDecimal.ZERO here
         BigDecimal sum = new BigDecimal(0);
         int counter = 0;
         for (Loan loan : this.loans) {
@@ -50,6 +52,7 @@ public class LoanService implements LoanServiceInterface {
     }
 
     public BigDecimal calculateAverageLoanCostByRiskType(LoanRiskType riskType) {
+        //Use BigDecimal.ZERO here
         BigDecimal averageCost = new BigDecimal(0);
         int counter = 0;
         for (Loan loan : this.loans) {
@@ -62,12 +65,15 @@ public class LoanService implements LoanServiceInterface {
     }
 
     public BigDecimal calculateMaximumPriceOfNonExpiredLoans() {
+        //Since Java 1.7 - "...ArrayList<BigDecimal>" -> "...ArrayList<>"
         List<BigDecimal> notExpiredList = new ArrayList<BigDecimal>();
         for (Loan loan : this.loans) {
+            //I think this check should be implemented in "Loan.isValid()"
             if (DateUtil.addYears(loan.getCreationDate(), loan.getTermInYears()).before(new Date())) {
                 notExpiredList.add(loan.getTotalLoanCost());
             }
         }
+        //Good solution! Nice job :)
         return Collections.max(notExpiredList);
     }
 
@@ -77,6 +83,7 @@ public class LoanService implements LoanServiceInterface {
         for(Loan loan:loans){
             if (!loansByRiskType.containsKey(loan.getLoanRiskType())) {
                 loansByRiskType.put(loan.getLoanRiskType(), new ArrayList<Loan>());
+                //You can optimize this "for" block by moving line below outside "if" statement and removing "else" block.
                 loansByRiskType.get(loan.getLoanRiskType()).add(loan);
             } else {
                 loansByRiskType.get(loan.getLoanRiskType()).add(loan);
@@ -85,7 +92,9 @@ public class LoanService implements LoanServiceInterface {
         return loansByRiskType;
     }
     */
+    //Never return concrete collection types (use "Collection<...>"/"List<...>" instead)
     public ArrayList<Loan> calculateNormalRiskVehicleLoans() {
+        //Use "Collection<...>"/"List<...>" instead of concrete type.
         ArrayList<Loan> normalRiskVehicleLoans = new ArrayList<>();
         for (Loan loan : loans) {
             if (loan instanceof VehicleLoan && loan.getLoanRiskType() == LoanRiskType.NORMAL_RISK) {
@@ -96,15 +105,18 @@ public class LoanService implements LoanServiceInterface {
     }
 
     public int calculateMaximumAgeOfLowRiskLoanedVehicles() {
+        //Use "Collection<...>"/"List<...>" instead of concrete type.
         ArrayList<Integer> lowRiskLoanedVehicles = new ArrayList<>();
         for (Loan loan : loans) {
             if (loan instanceof VehicleLoan && loan.getLoanRiskType() == LoanRiskType.LOW_RISK) {
                 lowRiskLoanedVehicles.add(((VehicleLoan) loan).getMaximumAge());
             }
         }
+        //External brackets are not needed here
         return (Collections.max(lowRiskLoanedVehicles));
     }
 
+    //This is what I mean do the same for "calculateNormalRiskVehicleLoans"
     public Collection<Loan> calculatePersonalRealEstateLoans() {
         Collection<Loan> personalRealEstateLoans = new ArrayList<>();
         for (Loan loan : loans) {
@@ -119,6 +131,7 @@ public class LoanService implements LoanServiceInterface {
         Collection<Integer> expiredHighRiskVehicleLoansOfHighestDuration = new ArrayList<>();
         for (Loan loan : loans) {
             if (loan instanceof VehicleLoan && loan.getLoanRiskType() == LoanRiskType.HIGH_RISK) {
+                //I think this check should be implemented in "Loan.isValid()"
                 if (DateUtil.addYears(loan.getCreationDate(), loan.getTermInYears()).before(new Date())) {
                     expiredHighRiskVehicleLoansOfHighestDuration.add(((VehicleLoan) loan).getMaximumAge());
                 }
@@ -127,6 +140,7 @@ public class LoanService implements LoanServiceInterface {
         return expiredHighRiskVehicleLoansOfHighestDuration;
     }
 
+    //This is not finished yet, I guess
     public Collection<Loan> getPersonalRealEstateLoans() {
         Collection<Loan> personalRealEstateLoans = new ArrayList<>();
         return personalRealEstateLoans;
@@ -145,9 +159,11 @@ public class LoanService implements LoanServiceInterface {
 
     @Override
     public Collection<Loan> calculateExpiredLandLoansInReservation() {
+        //Use "Collection<...>"/"List<...>" instead of concrete type.
         ArrayList<Loan> expiredLandLoansInReservation = new ArrayList<>();
         for (Loan loan : loans) {
             if (loan instanceof LandLoan && ((LandLoan) loan).getInReservation()) {
+                //I think this check should be implemented in "Loan.isValid()"
                 if (DateUtil.addYears(loan.getCreationDate(), loan.getTermInYears()).after(new Date())) {
                     expiredLandLoansInReservation.add(loan);
                 }
@@ -158,7 +174,10 @@ public class LoanService implements LoanServiceInterface {
 
     @Override
     public Collection<Loan> calculateLoansOfHigherThanAverageDepreciation() {
+        //Use "Collection<...>"/"List<...>" instead of concrete type.
         ArrayList<Loan> loansOfHigherThanAverageDepreciation = new ArrayList<>();
+        //Initialization of "averageVehicleDepreciation" is not needed. Do this instead:
+        //BigDecimal averageVehicleDepreciation = calculateAverageDepreciation();
         BigDecimal averageVehicleDepreciation = new BigDecimal(0);
         averageVehicleDepreciation = calculateAverageDepreciation();
         for (Loan loan : loans) {
