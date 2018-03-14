@@ -12,6 +12,8 @@ public class VehicleLoan extends Loan {
     private BigDecimal interestRate;
 
     public void VehicleLoan() {
+        //Idea was (for Task 3), you would override "setInterestRate(...)" from "Loan" and recalculate it in this overridden setter.
+        //But.. seems that one of my tests fails if you do that, so keep that in mind :)
         this.interestRate = super.getInterestRate().multiply(getInterestMultiplierBasedOnRiskGroup());
     }
 
@@ -19,6 +21,7 @@ public class VehicleLoan extends Loan {
         if (this.getLoanRiskType() == LoanRiskType.HIGH_RISK) {
             return new BigDecimal(1.5);
         } else if (this.getLoanRiskType() == LoanRiskType.NORMAL_RISK) {
+            //You can use a constant here (Hint: BigDecimal.ONE)
             return new BigDecimal(1);
         } else return new BigDecimal(0.8);
     }
